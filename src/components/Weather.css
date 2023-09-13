@@ -78,10 +78,10 @@ line-height: normal;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-family: Poppins;
-    font-size: 55px;
+    font-size: 75px;
     font-style: normal;
     font-weight: 700;
-    line-height: normal;
+    /* line-height: normal; */
 }
 
 .feel-txt{
@@ -109,4 +109,21 @@ line-height: normal;
     width: 79.858px;
     height: 49.581px;
     flex-shrink: 0;
+}
+
+.sun{
+    color: #FFF;
+    font-family: Poppins;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+.time-sun{
+    color: #FFF;
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
 }

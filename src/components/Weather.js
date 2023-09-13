@@ -1,20 +1,23 @@
 import React from 'react'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Clock from 'react-live-clock'
 import './Weather.css';
 import rectangle from '../components/img/Rectangle.png'
 import search from '../components/img/Search.png'
 import location from '../components/img/Location.png'
-import sunrise from '../components/img/Sunrise.png'
-
+import sunriseIcon from '../components/img/Sunrise.png'
+import sunsetIcon from '../components/img/Sunset.png'
+import sunIcon from '../components/img/Sun.png'
 
 const Weather = () => {
-  const [weatherData, setWeatherData] = useState(null);
+  const [weatherData, setWeatherData] = useState();
   const [city, setCity] = useState('');
-  const [apiKey] = useState('ccf5109e04a1727bc94e962ebc893242'); // Replace with your API key
+  const [apiKey] = useState('ccf5109e04a1727bc94e962ebc893242');
   const handleChange = (event) => {
     setCity(event.target.value);
   };
+
+  
 
   const handleClick = () => {
     // 👇 "message" stores input field value
@@ -40,8 +43,41 @@ const Weather = () => {
           fetchData();
         }
   };
-  let temperature = {weatherData.main.temp};
-  console.log(Math.floor(temperature));
+  // let dt;
+  //   {weatherData && (
+  //     dt = weatherData.sys.timezone
+  //   )}
+
+
+  // var day = new Date(dt*1000);
+
+    /* useEffect(() => {
+      // Define the widget parameters
+      const widgetParams = {
+        id: 11,
+        city: {city},
+        appid: 'ccf5109e04a1727bc94e962ebc893242',
+        units: 'metric',
+        containerid: 'openweathermap-widget-11',
+      };
+  
+      // Create a script element for the OpenWeatherMap widget
+      const script = document.createElement('script');
+      script.async = true;
+      script.charset = 'utf-8';
+      script.src =
+        '//openweathermap.org/themes/openweathermap/assets/vendor/owm/js/weather-widget-generator.js';
+  
+      // Append the script to the document
+      const s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(script, s);
+  
+      // Push the widgetParams to window.myWidgetParam
+      if (!window.myWidgetParam) {
+        window.myWidgetParam = [];
+      }
+      window.myWidgetParam.push(widgetParams);
+    }, []); */
 
   const dateBuilder = (d) => {
     let months = [
@@ -71,7 +107,7 @@ const Weather = () => {
     let day = days[d.getDay()];
     let date = d.getDate();
     let month = months[d.getMonth()];
-    let year = d.getFullYear();
+    // let year = d.getFullYear();
   
     return `${day}, ${date} ${month}`;
   };
@@ -124,59 +160,107 @@ const Weather = () => {
       </div>
 
     {/* Location and Time */}
-      {/* {weatherData && ( */}
-    <div className='flex h-[330px]'>
-      <div className="w-[530px] h-[330px] background-det location-time ml-[50px] mt-[30px]">
-        <div className='mt-[40px]'>
-          <div className=''>
-            <h2 className='text-5xl'>{/* {weatherData.name}, {weatherData.sys.country} */}Kanpur,</h2>
-            <h2>{/* {weatherData.name}, {weatherData.sys.country} */}India</h2>
-          </div>
-          {/* Date and time*/}
-          <div className="time date-time">
-            <div className="dmy">
-              <div id="txt"></div>
-              <div className="current-time">
-                <Clock
-                  format={'h:mmA'}
-                  style={{fontSize: '1.5em'}}
-                  ticking={true}
-                />
-              </div>
-              {/* Date and Day */}
-              <div className="date">{dateBuilder(new Date())}</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    
-      {/* Weather Detail */}
-      <div className='w-[780px] h-[330px] background-det flex-shrink-0 mt-[30px] ml-[100px]'>
-        {/* Weather Div */}
-        <div className='w-[204px] h-[291.023px] flex-shrink-0'>
-          <div className='w-[204px] h-[77px] flex-shrink-0 font-poppins'>
-            {weatherData && (
-              <h1 className='tempe'>{weatherData.main.temp}°C</h1>
-            )}
 
-          <div className="like-temp">
-            <h1 className='feel-txt'>Feels like : {weatherData && (
-              <h1 className='like-temp-cel ml-[90px] mt-[-26.5px]'>{weatherData.main.temp - 2}°C</h1>
-            )}</h1>
-          </div>
-          {/* Sunrise and Sunset */}
-          <div>
-            {/* Sunrise */}
-            <div className='sunrise'>
-              <img src={sunrise} alt="" />
+
+
+
+      {/* {weatherData && ( */}
+      <div className='flex h-[330px]'>
+{/* 
+                <h1 className='tempe'>{(Math.floor(weatherData.main.temp))}°C</h1>
+               */}
+        <div className="w-[530px] h-[330px] background-det location-time ml-[50px] mt-[30px]">
+          <div className='mt-[40px]'>
+            <div className=''>
+              {weatherData && (
+                <h2 className='text-5xl'>{weatherData.name},</h2>
+              )}
+              {weatherData && (
+                <h2>{weatherData.sys.country}</h2>
+              )}
+            </div>
+            {/* Date and time*/}
+            <div className="time date-time">
+              <div className="dmy">
+                <div id="txt"></div>
+                <div className="current-time">
+                  {/* <Clock
+                    format={'h:mmA'}
+                    style={{fontSize: '1.5em'}}
+                    ticking={true}
+                  /> */}
+                  {weatherData && (
+                  <h1>{day}</h1>
+                  )}
+                </div>
+                {/* Date and Day */}
+                <div className="date">{dateBuilder(new Date())}</div>
+              </div>
             </div>
           </div>
+        </div>
+      
+        {/*  ------   Weather Detail  -------- */}
+
+        <div className='w-[780px] h-[330px] background-det flex-shrink-0 mt-[30px] ml-[100px]'>
+
+          {/*   --------  Weather Div  -------- */}
+          <div className='w-[204px] h-[291.023px] flex-shrink-0'>
+            <div className='w-[204px] h-[77px] mt-[15px] ml-[30px] flex-shrink-0 font-poppins'>
+              {weatherData && (
+                <h1 className='tempe'>{(Math.floor(weatherData.main.temp))}°C</h1>
+              )}
+
+              <div className="like-temp ml-[2px] mt-[-20px]">
+                <div className='feel-txt'>Feels like : {weatherData && (
+                  <div className='like-temp-cel ml-[90px] mt-[-26.5px]'>
+                    {(Math.floor(weatherData.main.feels_like))}°C
+                  </div>
+                  )}
+                </div>
+            </div>
+
+            {/*  ------   Sunrise and Sunset   -------  */} 
+
+            <div className='mt-[25px]'>
+              {/* Sunrise */}
+              <div className='sun w-[48px] h-[48px] ml-[20px]'>
+                <img src={sunriseIcon} alt="" />
+                <div className='w-[84.402px] h-[61.023] ml-[50px] mt-[-50px]'>
+                  <h1 className='w-[91.849px] h-[30.512px]'>Sunrise</h1>
+                  <h1 className='time-sun w-[94.332px] h-[24.155px] flex-shrink-0'>soon</h1>
+                </div>
+              </div>
+              {/* Sunset */}
+              <div className='sun w-[48px] h-[48px] mt-[30px] ml-[20px]'>
+                <img src={sunsetIcon} alt="" />
+                <div  className='w-[84.402px] h-[61.023] ml-[50px] mt-[-50px]'>
+                  <h1 className='w-[84.402px] h-[61.023]'>Sunset</h1>
+                  <h1 className='time-sun w-[94.332px] h-[24.155px] flex-shrink-0'>soon</h1>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          </div>
+
+
+          {/* --------  Weather Icon  -------- */}
+            
+          <div>
+            <div className='w-[270px] h-[270px] flex-shrink-0 mt-[-310px] ml-[225px]'>
+              <img src={sunIcon} alt="" />
+            </div>
+            <div className='w-[129px] h-[53px] ml-[265px] mt-[-30px] flex flex-col '>
+              <h1 className='text-[#fff] text-center font-poppins text-[32px] font-semibold'>Sunny</h1>
+            </div>
           </div>
         </div>
+
         
+
       </div>
-    </div>
-    
+      {/* <div id="openweathermap-widget-11"></div> */}
   </div>
   )
 }
