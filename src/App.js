@@ -1,14 +1,20 @@
-import './App.css';
-import Weather from './components/Weather';
-document.body.classList.add('bg-color');
+import React, { useState } from "react";
+import CurrentLocation from "./currentLocation";
+import "./App.css";
 
 function App() {
   return (
-    <div className="App">
-      <div className="inside">
-        <Weather/>
+    <React.Fragment>
+      <div className="container">
+        <CurrentLocation />
       </div>
-    </div>
+      <div className="footer-info">
+        Developed by{" "}
+        <a target="_blank" href="https://www.gauravghai.dev/">
+          Krish Gupta
+        </a>{" "}
+      </div>
+    </React.Fragment>
   );
 }
 

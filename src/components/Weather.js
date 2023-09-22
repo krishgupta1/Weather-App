@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Clock from 'react-live-clock'
 import './Weather.css';
 import rectangle from '../components/img/Rectangle.png'
@@ -10,107 +10,76 @@ import sunsetIcon from '../components/img/Sunset.png'
 import sunIcon from '../components/img/Sun.png'
 
 const Weather = () => {
-  const [weatherData, setWeatherData] = useState();
+  const [weatherData, setWeatherData] = useState('');
   const [city, setCity] = useState('');
   const [apiKey] = useState('ccf5109e04a1727bc94e962ebc893242');
-  const handleChange = (event) => {
-    setCity(event.target.value);
-  };
 
-  
+const handleChange = (event) => {
+  setCity(event.target.value);
+};
 
-  const handleClick = () => {
-    // 👇 "message" stores input field value
-    // setUpdated(city);
-        const fetchData = async () => {
-          try {
-            const response = await fetch(
-              `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`
-            );
-    
-            if (!response.ok) {
-              throw new Error('Weather data not available');
-            }
-    
-            const data = await response.json();
-            setWeatherData(data);
-          } catch (error) {
-            console.error(error);
-          }
-        };
-    
-        if (city !== '') {
-          fetchData();
-        }
-  };
-  // let dt;
-  //   {weatherData && (
-  //     dt = weatherData.sys.timezone
-  //   )}
+const handleClick = () => {
+  const fetchData = async () => {
+    try {
+      const response = await fetch(
+        `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`
+      );
 
-
-  // var day = new Date(dt*1000);
-
-    /* useEffect(() => {
-      // Define the widget parameters
-      const widgetParams = {
-        id: 11,
-        city: {city},
-        appid: 'ccf5109e04a1727bc94e962ebc893242',
-        units: 'metric',
-        containerid: 'openweathermap-widget-11',
-      };
-  
-      // Create a script element for the OpenWeatherMap widget
-      const script = document.createElement('script');
-      script.async = true;
-      script.charset = 'utf-8';
-      script.src =
-        '//openweathermap.org/themes/openweathermap/assets/vendor/owm/js/weather-widget-generator.js';
-  
-      // Append the script to the document
-      const s = document.getElementsByTagName('script')[0];
-      s.parentNode.insertBefore(script, s);
-  
-      // Push the widgetParams to window.myWidgetParam
-      if (!window.myWidgetParam) {
-        window.myWidgetParam = [];
+      if (!response.ok) {
+        throw new Error('Weather data not available');
       }
-      window.myWidgetParam.push(widgetParams);
-    }, []); */
 
-  const dateBuilder = (d) => {
-    let months = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
-    let days = [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-    ];
-  
-    let day = days[d.getDay()];
-    let date = d.getDate();
-    let month = months[d.getMonth()];
-    // let year = d.getFullYear();
-  
-    return `${day}, ${date} ${month}`;
+      const data = await response.json();
+      setWeatherData(data);
+    } catch (error) {
+      console.error(error);
+    }
   };
+
+  if (city !== '') {
+    fetchData();
+  }
+};
+
+let dt;
+if (weatherData && weatherData.sys) {
+  dt = weatherData.sys.timezone;
+}
+
+var day = new Date(dt * 1000);
+
+const dateBuilder = (d) => {
+  let months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  let days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+
+  let day = days[d.getDay()];
+  let date = d.getDate();
+  let month = months[d.getMonth()];
+
+  return `${day}, ${date} ${month}`;
+};
+
 
 
 
@@ -166,9 +135,9 @@ const Weather = () => {
 
       {/* {weatherData && ( */}
       <div className='flex h-[330px]'>
-{/* 
-                <h1 className='tempe'>{(Math.floor(weatherData.main.temp))}°C</h1>
-               */}
+        {weatherData && (
+        <h1 className='tempe'>{(Math.floor(weatherData.main.temp))}°C</h1>
+        )}
         <div className="w-[530px] h-[330px] background-det location-time ml-[50px] mt-[30px]">
           <div className='mt-[40px]'>
             <div className=''>
